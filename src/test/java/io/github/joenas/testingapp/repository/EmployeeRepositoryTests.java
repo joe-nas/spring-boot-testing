@@ -3,6 +3,7 @@ package io.github.joenas.testingapp.repository;
 import io.github.joenas.testingapp.model.Employee;
 import org.aspectj.weaver.ast.ITestVisitor;
 import org.hibernate.query.sqm.mutation.internal.cte.CteInsertStrategy;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,17 @@ public class EmployeeRepositoryTests {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    private Employee employee;
+    @BeforeEach
+    public void setup(){
+        employee = Employee.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .email("john@doe.com")
+                .build();
+    }
+
+
     // JUnit test for saving employee
     @DisplayName("JUnit test for saving employee")
     @Test
@@ -34,7 +46,7 @@ public class EmployeeRepositoryTests {
         Employee employee = Employee.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .email("john@doe")
+                .email("john@doe.com")
                 .build();
         // when
         Employee savedEmployee = employeeRepository.save(employee);
@@ -51,12 +63,12 @@ public class EmployeeRepositoryTests {
         Employee employee1 = Employee.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .email("john@doe")
+                .email("john@doe.com")
                 .build();
         Employee employee2 = Employee.builder()
                 .firstName("Jane")
                 .lastName("Doe")
-                .email("jane@doe")
+                .email("jane@doe.com")
                 .build();
         employeeRepository.save(employee1);
         employeeRepository.save(employee2);
@@ -93,7 +105,7 @@ public class EmployeeRepositoryTests {
         Employee employee = Employee.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .email("john@doe")
+                .email("john@doe.com")
                 .build();
         employeeRepository.save(employee);
         //when
