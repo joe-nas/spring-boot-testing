@@ -42,12 +42,8 @@ public class EmployeeRepositoryTests {
     @DisplayName("JUnit test for saving employee")
     @Test
     public void givenEmployeeObject_whenSave_thenReturnSavedEmployee() {
-        // given
-//        Employee employee = Employee.builder()
-//                .firstName("John")
-//                .lastName("Doe")
-//                .email("john@doe.com")
-//                .build();
+        // given setup
+
         // when
         Employee savedEmployee = employeeRepository.save(employee);
         // then
@@ -59,12 +55,8 @@ public class EmployeeRepositoryTests {
     @DisplayName("JUnit test for finding all employees")
     @Test
     public void givenEmployeesList_whenFindAll_thenEmployeesList() {
-        // given
-//        Employee employee1 = Employee.builder()
-//                .firstName("John")
-//                .lastName("Doe")
-//                .email("john@doe.com")
-//                .build();
+        // given setup and
+
         Employee employee1 = Employee.builder()
                 .firstName("Jane")
                 .lastName("Doe")
@@ -83,12 +75,8 @@ public class EmployeeRepositoryTests {
     @DisplayName("JUnit test for finding employee by id")
     @Test
     public void givenEmployeeObject_whenFindById_thenReturnEmployeeObject() {
-        // given
-//        Employee employee = Employee.builder()
-//                .firstName("John")
-//                .lastName("Doe")
-//                .email("john@doe")
-//                .build();
+        // given setup
+
         // save method assigns an id to the employee object
         employeeRepository.save(employee);
         // when
@@ -101,12 +89,8 @@ public class EmployeeRepositoryTests {
     @DisplayName("JUnit test for getting employee by email")
     @Test
     public void givenEmail_whenFindByEmail_thenReturnEmployeeObject() {
-        //given
-//        Employee employee = Employee.builder()
-//                .firstName("John")
-//                .lastName("Doe")
-//                .email("john@doe.com")
-//                .build();
+        //given setup
+
         employeeRepository.save(employee);
         //when
         Employee employeeDB = employeeRepository.findByEmail(employee.getEmail()).get();
@@ -119,12 +103,8 @@ public class EmployeeRepositoryTests {
     @DisplayName("JUnit test for update employee operation")
     @Test
     public void givenEmployeeObject_whenUpdateEmploye_thenReturnUpdatedEmployee() {
-        //given
-//        Employee employee = Employee.builder()
-//                .firstName("John")
-//                .lastName("Doe")
-//                .email("john@doe.com")
-//                .build();
+        //given setup
+
         employeeRepository.save(employee);
         //when
         Employee savedEmployee = employeeRepository.findById(employee.getId()).get();
@@ -139,12 +119,8 @@ public class EmployeeRepositoryTests {
     @DisplayName("JUnit test for delete employee operation")
     @Test
     public void givenEmployeeObject_whenDelete_thenRemoveEmployee() {
-        //given
-//        Employee employee = Employee.builder()
-//                .firstName("John")
-//                .lastName("Doe")
-//                .email("john@doe.com")
-//                .build();
+        //given setup
+
         employeeRepository.save(employee);
         //when
         employeeRepository.deleteById(employee.getId());
@@ -156,12 +132,8 @@ public class EmployeeRepositoryTests {
     @DisplayName("JUnit test for custom query using JPQL with index parameters")
     @Test
     public void givenFirstNameAndLastName_whenFindByJPQL_thenReturnEmployee() {
-        //given
-//        Employee employee = Employee.builder()
-//                .firstName("John")
-//                .lastName("Doe")
-//                .email("john@doe.com")
-//                .build();
+        //given setup
+
         employeeRepository.save(employee);
         String firstName = "John";
         String lastName = "Doe";
@@ -176,12 +148,8 @@ public class EmployeeRepositoryTests {
     @DisplayName("JUnit test for custom query using JPQL with named parameters")
     @Test
     public void givenFirstNameAndLastName_whenfindByJPQLNamedParams_thenReturnEmployee() {
-        //given
-//        Employee employee = Employee.builder()
-//                .firstName("John")
-//                .lastName("Doe")
-//                .email("john@doe.com")
-//                .build();
+        //given setup
+
         employeeRepository.save(employee);
         String firstName = "John";
         String lastName = "Doe";
@@ -196,12 +164,8 @@ public class EmployeeRepositoryTests {
     @DisplayName("JUnit test for custom query using SQL with index parameters")
     @Test
     public void givenFirstNameAndLastName_whenFindByNativeSQL_thenReturnEmployee() {
-        //given
-//        Employee employee = Employee.builder()
-//                .firstName("John")
-//                .lastName("Doe")
-//                .email("john@doe.com")
-//                .build();
+        //given setup
+
         employeeRepository.save(employee);
         //when
         Employee employeeDB = employeeRepository.findByNativeSQL(employee.getFirstName(), employee.getLastName());
@@ -214,12 +178,8 @@ public class EmployeeRepositoryTests {
     @DisplayName("JUnit test for custom query using SQL with named parameters")
     @Test
     public void givenFirstNameAndLastName_whenFindByNativeSQLNamedParams_thenReturnEmployee() {
-        //given
-//        Employee employee = Employee.builder()
-//                .firstName("John")
-//                .lastName("Doe")
-//                .email("john@doe.com")
-//                .build();
+        //given setup
+
         employeeRepository.save(employee);
         //when
         Employee employeeDB = employeeRepository.findByNativeSQLNamedParams(employee.getFirstName(), employee.getLastName());
