@@ -1,5 +1,6 @@
 package io.github.joenas.testingapp.service;
 
+import io.github.joenas.testingapp.exception.ResourceNotFoundException;
 import io.github.joenas.testingapp.model.Employee;
 import io.github.joenas.testingapp.repository.EmployeeRepository;
 import io.github.joenas.testingapp.service.impl.EmployeeServiceImpl;
@@ -8,7 +9,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -44,7 +50,7 @@ public class EmployeeServiceTests {
                 .build();
     }
 
-    // JUnit test for saveEmployee merthod
+    // JUnit test for saveEmployee method
     @DisplayName("JUnit test for saveEmployee method")
     @Test
     public void givenEmployeeObject_whenSaveEmployee_thenReturnEmployeeObject() {
@@ -61,5 +67,27 @@ public class EmployeeServiceTests {
         System.out.println(savedEmployee);
         //then
         Assertions.assertThat(savedEmployee).isNotNull();
+    }
+
+    // JUnit test for saveEmployee method with duplicate email
+    @DisplayName("JUnit test for saveEmployee method which throws Exception")
+    @Test
+    public void givenExistingEmail_whenSaveEmployee_thenThrowsException() {
+        //given
+        // saveEmployee depends on a employee object and findByEmail and save methods
+        // stubbing the methods the saveEmploye Service method depends on
+        given(employeeRepository.findByEmail(employee.getEmail())).willReturn(Optional.of(employee));
+
+//        is not needed because it is not invoked after throwing the exception
+//        given(employeeRepository.save(employee)).willReturn(employee);
+
+        System.out.println(employeeRepository);
+        System.out.println(employeeService);
+        //when
+        org.junit.jupiter.api.Assertions.assertThrows(ResourceNotFoundException.class,
+                () -> employeeService.saveEmployee(employee));
+        //then
+        verify(employeeRepository, never()).save(any(Employee.class));
+
     }
 }
