@@ -1,6 +1,8 @@
 package io.github.joenas.testingapp.repository;
 
 import io.github.joenas.testingapp.model.Employee;
+import org.aspectj.weaver.ast.ITestVisitor;
+import org.hibernate.query.sqm.mutation.internal.cte.CteInsertStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +83,24 @@ public class EmployeeRepositoryTests {
         // then
         assertThat(employeeDB).isNotNull();
         assertThat(employeeDB.getId()).isEqualTo(employee.getId());
+    }
+
+    @DisplayName("JUnit test for getting employee by email")
+    @Test
+    public void givenEmail_whenFindByEmail_thenReturnEmployeeObject() {
+        //given
+        Employee employee = Employee.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .email("john@doe")
+                .build();
+        employeeRepository.save(employee);
+        //when
+        Employee employeeDB = employeeRepository.findByEmail(employee.getEmail()).get();
+        //then
+        assertThat(employeeDB).isNotNull();
+        assertThat(employeeDB).isEqualTo(employee);
+
     }
 
 }
