@@ -43,11 +43,11 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenEmployeeObject_whenSave_thenReturnSavedEmployee() {
         // given
-        Employee employee = Employee.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("john@doe.com")
-                .build();
+//        Employee employee = Employee.builder()
+//                .firstName("John")
+//                .lastName("Doe")
+//                .email("john@doe.com")
+//                .build();
         // when
         Employee savedEmployee = employeeRepository.save(employee);
         // then
@@ -60,18 +60,18 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenEmployeesList_whenFindAll_thenEmployeesList() {
         // given
+//        Employee employee1 = Employee.builder()
+//                .firstName("John")
+//                .lastName("Doe")
+//                .email("john@doe.com")
+//                .build();
         Employee employee1 = Employee.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("john@doe.com")
-                .build();
-        Employee employee2 = Employee.builder()
                 .firstName("Jane")
                 .lastName("Doe")
                 .email("jane@doe.com")
                 .build();
+        employeeRepository.save(employee);
         employeeRepository.save(employee1);
-        employeeRepository.save(employee2);
         // when
         List<Employee> employeesList = employeeRepository.findAll();
 
@@ -84,11 +84,11 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenEmployeeObject_whenFindById_thenReturnEmployeeObject() {
         // given
-        Employee employee = Employee.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("john@doe")
-                .build();
+//        Employee employee = Employee.builder()
+//                .firstName("John")
+//                .lastName("Doe")
+//                .email("john@doe")
+//                .build();
         // save method assigns an id to the employee object
         employeeRepository.save(employee);
         // when
@@ -102,11 +102,11 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenEmail_whenFindByEmail_thenReturnEmployeeObject() {
         //given
-        Employee employee = Employee.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("john@doe.com")
-                .build();
+//        Employee employee = Employee.builder()
+//                .firstName("John")
+//                .lastName("Doe")
+//                .email("john@doe.com")
+//                .build();
         employeeRepository.save(employee);
         //when
         Employee employeeDB = employeeRepository.findByEmail(employee.getEmail()).get();
@@ -120,11 +120,11 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenEmployeeObject_whenUpdateEmploye_thenReturnUpdatedEmployee() {
         //given
-        Employee employee = Employee.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("john@doe.com")
-                .build();
+//        Employee employee = Employee.builder()
+//                .firstName("John")
+//                .lastName("Doe")
+//                .email("john@doe.com")
+//                .build();
         employeeRepository.save(employee);
         //when
         Employee savedEmployee = employeeRepository.findById(employee.getId()).get();
@@ -140,11 +140,11 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenEmployeeObject_whenDelete_thenRemoveEmployee() {
         //given
-        Employee employee = Employee.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("john@doe.com")
-                .build();
+//        Employee employee = Employee.builder()
+//                .firstName("John")
+//                .lastName("Doe")
+//                .email("john@doe.com")
+//                .build();
         employeeRepository.save(employee);
         //when
         employeeRepository.deleteById(employee.getId());
@@ -157,11 +157,11 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenFirstNameAndLastName_whenFindByJPQL_thenReturnEmployee() {
         //given
-        Employee employee = Employee.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("john@doe.com")
-                .build();
+//        Employee employee = Employee.builder()
+//                .firstName("John")
+//                .lastName("Doe")
+//                .email("john@doe.com")
+//                .build();
         employeeRepository.save(employee);
         String firstName = "John";
         String lastName = "Doe";
@@ -177,11 +177,11 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenFirstNameAndLastName_whenfindByJPQLNamedParams_thenReturnEmployee() {
         //given
-        Employee employee = Employee.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("john@doe.com")
-                .build();
+//        Employee employee = Employee.builder()
+//                .firstName("John")
+//                .lastName("Doe")
+//                .email("john@doe.com")
+//                .build();
         employeeRepository.save(employee);
         String firstName = "John";
         String lastName = "Doe";
@@ -197,11 +197,11 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenFirstNameAndLastName_whenFindByNativeSQL_thenReturnEmployee() {
         //given
-        Employee employee = Employee.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("john@doe.com")
-                .build();
+//        Employee employee = Employee.builder()
+//                .firstName("John")
+//                .lastName("Doe")
+//                .email("john@doe.com")
+//                .build();
         employeeRepository.save(employee);
         //when
         Employee employeeDB = employeeRepository.findByNativeSQL(employee.getFirstName(), employee.getLastName());
@@ -215,11 +215,11 @@ public class EmployeeRepositoryTests {
     @Test
     public void givenFirstNameAndLastName_whenFindByNativeSQLNamedParams_thenReturnEmployee() {
         //given
-        Employee employee = Employee.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("john@doe.com")
-                .build();
+//        Employee employee = Employee.builder()
+//                .firstName("John")
+//                .lastName("Doe")
+//                .email("john@doe.com")
+//                .build();
         employeeRepository.save(employee);
         //when
         Employee employeeDB = employeeRepository.findByNativeSQLNamedParams(employee.getFirstName(), employee.getLastName());
