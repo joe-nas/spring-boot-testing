@@ -163,13 +163,58 @@ public class EmployeeRepositoryTests {
 
     @DisplayName("JUnit test for custom query using JPQL with named parameters")
     @Test
-    public void given_when_then() {
+    public void givenFirstNameAndLastName_whenfindByJPQLNamedParams_thenReturnEmployee() {
         //given
-
+        Employee employee = Employee.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .email("john@doe.com")
+                .build();
+        employeeRepository.save(employee);
+        String firstName = "John";
+        String lastName = "Doe";
         //when
-
+        Employee employeeDB = employeeRepository.findByJPQLNamedParams(firstName, lastName);
         //then
+        assertThat(employeeDB).isNotNull();
+        assertThat(employeeDB.getFirstName()).isEqualTo(firstName);
+        assertThat(employeeDB.getLastName()).isEqualTo(lastName);
+    }
 
+    @DisplayName("JUnit test for custom query using SQL with index parameters")
+    @Test
+    public void givenFirstNameAndLastName_whenFindByNativeSQL_thenReturnEmployee() {
+        //given
+        Employee employee = Employee.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .email("john@doe.com")
+                .build();
+        employeeRepository.save(employee);
+        //when
+        Employee employeeDB = employeeRepository.findByNativeSQL(employee.getFirstName(), employee.getLastName());
+        //then
+        assertThat(employeeDB).isNotNull();
+        assertThat(employeeDB.getFirstName()).isEqualTo(employee.getFirstName());
+        assertThat(employeeDB.getLastName()).isEqualTo(employee.getLastName());
+    }
+
+    @DisplayName("JUnit test for custom query using SQL with named parameters")
+    @Test
+    public void givenFirstNameAndLastName_whenFindByNativeSQLNamedParams_thenReturnEmployee() {
+        //given
+        Employee employee = Employee.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .email("john@doe.com")
+                .build();
+        employeeRepository.save(employee);
+        //when
+        Employee employeeDB = employeeRepository.findByNativeSQLNamedParams(employee.getFirstName(), employee.getLastName());
+        //then
+        assertThat(employeeDB).isNotNull();
+        assertThat(employeeDB.getFirstName()).isEqualTo(employee.getFirstName());
+        assertThat(employeeDB.getLastName()).isEqualTo(employee.getLastName());
     }
 
 }
