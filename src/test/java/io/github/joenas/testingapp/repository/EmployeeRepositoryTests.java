@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -121,6 +122,54 @@ public class EmployeeRepositoryTests {
         //then
         assertThat(updatedEmployee.getEmail()).isEqualTo("jane@doe.com");
         assertThat(updatedEmployee.getFirstName()).isEqualTo("Jane");
+    }
+
+    @DisplayName("JUnit test for delete employee operation")
+    @Test
+    public void givenEmployeeObject_whenDelete_thenRemoveEmployee() {
+        //given
+        Employee employee = Employee.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .email("john@doe.com")
+                .build();
+        employeeRepository.save(employee);
+        //when
+        employeeRepository.deleteById(employee.getId());
+        Optional<Employee> employeeOptional = employeeRepository.findById(employee.getId());
+        //then
+        assertThat(employeeOptional).isEmpty();
+    }
+
+    @DisplayName("JUnit test for custom query using JPQL with index parameters")
+    @Test
+    public void givenFirstNameAndLastName_whenFindByJPQL_thenReturnEmployee() {
+        //given
+        Employee employee = Employee.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .email("john@doe.com")
+                .build();
+        employeeRepository.save(employee);
+        String firstName = "John";
+        String lastName = "Doe";
+        //when
+        Employee employeeDB = employeeRepository.findByJPQL(firstName, lastName);
+        //then
+        assertThat(employeeDB).isNotNull();
+        assertThat(employeeDB.getFirstName()).isEqualTo(firstName);
+        assertThat(employeeDB.getLastName()).isEqualTo(lastName);
+    }
+
+    @DisplayName("JUnit test for custom query using JPQL with named parameters")
+    @Test
+    public void given_when_then() {
+        //given
+
+        //when
+
+        //then
+
     }
 
 }
