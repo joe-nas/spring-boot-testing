@@ -12,14 +12,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.*;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -48,6 +51,7 @@ public class EmployeeServiceTests {
                 .lastName("Doe")
                 .email("john@doe.com")
                 .build();
+
     }
 
     // JUnit test for saveEmployee method
@@ -90,4 +94,80 @@ public class EmployeeServiceTests {
         verify(employeeRepository, never()).save(any(Employee.class));
 
     }
+
+    @DisplayName("JUnit test for getAllEmployees method - positive scenario")
+    @Test
+    public void givenEmployeesList_whenGetAllEmployees_thenReturnEmployeesList() {
+        //given
+        List<Employee> employees = List.of(employee, Employee.builder()
+                .id(1L)
+                .firstName("Jane")
+                .lastName("Doe")
+                .email("jane@doe.com")
+                .build());
+        given(employeeRepository.findAll()).willReturn(employees);
+        //when
+        List<Employee> employeeList = employeeService.getAllEmployees();
+        //then
+        Assertions.assertThat(employeeList).isNotNull();
+        Assertions.assertThat(employeeList.size()).isEqualTo(2);
+    }
+
+    @DisplayName("JUnit test for getAllEmployees method - negative scenario")
+    @Test
+    public void givenEmptyEmployeesList_whenGetAllEmployees_thenReturnEmptyEmployeesList() {
+        //given
+        List<Employee> employees = List.of(employee, Employee.builder()
+                .id(1L)
+                .firstName("Jane")
+                .lastName("Doe")
+                .email("jane@doe.com")
+                .build());
+        given(employeeRepository.findAll()).willReturn(Collections.emptyList());
+        //when
+        List<Employee> employeeList = employeeService.getAllEmployees();
+        //then
+        Assertions.assertThat(employeeList).isEmpty();
+        Assertions.assertThat(employeeList.size()).isEqualTo(0);
+    }
+
+    @DisplayName("JUnit test for getEmployeeById method")
+    @Test
+    public void givenEmplyeeId_whenGetEmployeeById_thenReturnEmployeeObject() {
+        //given - precondition or setup
+        long id = 1;
+        given(employeeRepository.findById(id)).willReturn(Optional.of(employee));
+        //when - action or the behaviour to test
+        Optional<Employee> optionalEmployee = employeeService.getEmployeeById(id);
+        //then - verify the output
+        Assertions.assertThat(optionalEmployee).isNotNull();
+        Assertions.assertThat(optionalEmployee.get().getId()).isEqualTo(id);
+    }
+
+    @DisplayName("Junit test for updateEmployee operation")
+    @Test
+    public void givenEmplyee_whenUpdateEmployee_thenReturnUpdatedEmployee() {
+        //given - precondition or setup
+        given(employeeRepository.save(employee)).willReturn(employee);
+        employee.setFirstName("Jane");
+        employee.setEmail("jane@doe.com");
+        //when - action or the behaviour to test
+        Employee updatedEmployee = employeeService.updateEmployee(employee);
+        //then - verify the output
+        Assertions.assertThat(updatedEmployee.getFirstName()).isEqualTo("Jane");
+        Assertions.assertThat(updatedEmployee.getEmail()).isEqualTo("jane@doe.com");
+    }
+
+    @DisplayName("JUnit test for deleteEmployee operation")
+    @Test
+    public void givenEmployeeId_whenDeleteEmployee_thenReturnVoid() {
+        //given - precondition or setup
+        willDoNothing().given(employeeRepository).deleteById(employee.getId());
+        //when - action or the behaviour to test
+        employeeService.deleteEmployee(employee.getId());
+        //then - verify the output
+        verify(employeeRepository, times(1)).deleteById(employee.getId());
+
+    }
+
 }
