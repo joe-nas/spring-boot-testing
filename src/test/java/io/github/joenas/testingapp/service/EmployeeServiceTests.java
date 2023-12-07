@@ -17,10 +17,8 @@ import static org.mockito.Mockito.*;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -148,6 +146,7 @@ public class EmployeeServiceTests {
     @Test
     public void givenEmplyee_whenUpdateEmployee_thenReturnUpdatedEmployee() {
         //given - precondition or setup
+        long id = 1L;
         given(employeeRepository.save(employee)).willReturn(employee);
         employee.setFirstName("Jane");
         employee.setEmail("jane@doe.com");
@@ -169,5 +168,4 @@ public class EmployeeServiceTests {
         verify(employeeRepository, times(1)).deleteById(employee.getId());
 
     }
-
 }
